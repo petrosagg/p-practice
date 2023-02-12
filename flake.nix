@@ -9,11 +9,11 @@
         pkgs = import nixpkgs {
           system = "x86_64-linux";
         };
+        p = (pkgs.callPackage ./pkgs/p { });
+        coyote = (pkgs.callPackage ./pkgs/coyote { });
+        pmc = pkgs.writeShellScriptBin "pmc" ''exec ${coyote}/bin/coyote test "$@"'';
       in pkgs.mkShell {
-        buildInputs = [
-          (pkgs.callPackage ./pkgs/p { })
-          (pkgs.callPackage ./pkgs/coyote { })
-        ];
+        buildInputs = [ p pmc ];
       };
   };
 }
