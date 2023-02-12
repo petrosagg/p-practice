@@ -4,11 +4,16 @@
   };
 
   outputs = { self, nixpkgs, ... }: {
-    devShell = nixpkgs.mkShell{
-      buildInputs = [
-
-
-      ]
-    };
+    devShell.x86_64-linux =
+      let
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+        };
+      in pkgs.mkShell {
+        buildInputs = [
+          (pkgs.callPackage ./pkgs/p { })
+          (pkgs.callPackage ./pkgs/coyote { })
+        ];
+      };
   };
 }

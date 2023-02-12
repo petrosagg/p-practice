@@ -1,0 +1,130 @@
+From 9c8cc6c69af9200609ff25030600b65fd1871731 Mon Sep 17 00:00:00 2001
+From: Petros Angelatos <petrosagg@gmail.com>
+Date: Sun, 12 Feb 2023 11:19:56 +0100
+Subject: [PATCH] build quirks to get nix build working
+
+Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+---
+ Coyote.sln                             | 21 ---------------------
+ Source/Core/Core.csproj                |  6 +++---
+ Tests/Tests.Common/Tests.Common.csproj |  6 +++---
+ global.json                            |  4 ++--
+ 4 files changed, 8 insertions(+), 29 deletions(-)
+
+diff --git a/Coyote.sln b/Coyote.sln
+index 12de7fbb..da9c4bc7 100644
+--- a/Coyote.sln
++++ b/Coyote.sln
+@@ -26,14 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9BC0914F
+ EndProject
+ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Common", "Tests\Tests.Common\Tests.Common.csproj", "{61FC86A6-AF87-4007-B184-AF860A57AB9E}"
+ EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkRunner", "Tools\BenchmarkRunner\BenchmarkRunner.csproj", "{22E8C60D-916F-47C7-AF79-D1FFB0EC345F}"
+-EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoverageReportMerger", "Tools\CoverageReportMerger\CoverageReportMerger.csproj", "{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF}"
+-EndProject
+ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coyote", "Tools\Coyote\Coyote.csproj", "{756F8C17-37FA-4A6E-8D87-3132FCE4A17D}"
+ EndProject
+-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Performance.Tests", "Tests\Performance.Tests\Performance.Tests.csproj", "{87DD0944-2C10-46E6-9938-F7001BA1E8A7}"
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug|Any CPU = Debug|Any CPU
+@@ -56,22 +50,10 @@ Global
+ 		{61FC86A6-AF87-4007-B184-AF860A57AB9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+ 		{61FC86A6-AF87-4007-B184-AF860A57AB9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{61FC86A6-AF87-4007-B184-AF860A57AB9E}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{22E8C60D-916F-47C7-AF79-D1FFB0EC345F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{22E8C60D-916F-47C7-AF79-D1FFB0EC345F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{22E8C60D-916F-47C7-AF79-D1FFB0EC345F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{22E8C60D-916F-47C7-AF79-D1FFB0EC345F}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF}.Release|Any CPU.Build.0 = Release|Any CPU
+ 		{756F8C17-37FA-4A6E-8D87-3132FCE4A17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+ 		{756F8C17-37FA-4A6E-8D87-3132FCE4A17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+ 		{756F8C17-37FA-4A6E-8D87-3132FCE4A17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{756F8C17-37FA-4A6E-8D87-3132FCE4A17D}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{87DD0944-2C10-46E6-9938-F7001BA1E8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{87DD0944-2C10-46E6-9938-F7001BA1E8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{87DD0944-2C10-46E6-9938-F7001BA1E8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{87DD0944-2C10-46E6-9938-F7001BA1E8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+ 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
+@@ -81,10 +63,7 @@ Global
+ 		{911F1779-3558-4590-836C-C75112D65FD8} = {2012300C-6E5D-47A0-9D57-B3F0A73AA1D4}
+ 		{DABC68C1-79D3-4324-A750-7CF72E0A0ACF} = {2012300C-6E5D-47A0-9D57-B3F0A73AA1D4}
+ 		{61FC86A6-AF87-4007-B184-AF860A57AB9E} = {2012300C-6E5D-47A0-9D57-B3F0A73AA1D4}
+-		{22E8C60D-916F-47C7-AF79-D1FFB0EC345F} = {9BC0914F-3068-4148-B778-4CA27D828D39}
+-		{8A678DD5-9C51-4B71-80F7-5369CBFB8AEF} = {9BC0914F-3068-4148-B778-4CA27D828D39}
+ 		{756F8C17-37FA-4A6E-8D87-3132FCE4A17D} = {9BC0914F-3068-4148-B778-4CA27D828D39}
+-		{87DD0944-2C10-46E6-9938-F7001BA1E8A7} = {2012300C-6E5D-47A0-9D57-B3F0A73AA1D4}
+ 	EndGlobalSection
+ 	GlobalSection(ExtensibilityGlobals) = postSolution
+ 		SolutionGuid = {B9407046-CB24-4B07-8031-2749696EC7D8}
+diff --git a/Source/Core/Core.csproj b/Source/Core/Core.csproj
+index c02e0a81..e5c3c1fa 100644
+--- a/Source/Core/Core.csproj
++++ b/Source/Core/Core.csproj
+@@ -10,10 +10,10 @@
+     <OutputPath>..\..\bin\</OutputPath>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(OS)'=='Windows_NT'">
+-    <TargetFrameworks>netstandard2.0;netstandard2.1;net46;net47;net48</TargetFrameworks>
++    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net46;net47;net48</TargetFrameworks>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(OS)'=='UNIX'">
+-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
++    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+   </PropertyGroup>
+   <ItemGroup Condition="'$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net47' OR '$(TargetFramework)'=='net48'">
+     <Reference Include="System.Configuration" />
+@@ -24,4 +24,4 @@
+   <ItemGroup>
+     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
+diff --git a/Tests/Tests.Common/Tests.Common.csproj b/Tests/Tests.Common/Tests.Common.csproj
+index aae9f6ae..e11f4244 100644
+--- a/Tests/Tests.Common/Tests.Common.csproj
++++ b/Tests/Tests.Common/Tests.Common.csproj
+@@ -8,10 +8,10 @@
+     <OutputPath>..\bin\</OutputPath>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(OS)'=='Windows_NT'">
+-    <TargetFrameworks>netstandard2.0;netstandard2.1;net46;net47;net48</TargetFrameworks>
++    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net46;net47;net48</TargetFrameworks>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(OS)'=='UNIX'">
+-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
++    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+   </PropertyGroup>
+   <ItemGroup>
+     <ProjectReference Include="..\..\Source\Core\Core.csproj" />
+@@ -19,4 +19,4 @@
+   <ItemGroup>
+     <PackageReference Include="xunit" Version="2.4.1" />
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
+diff --git a/global.json b/global.json
+index 70a59a3e..0bd28bec 100644
+--- a/global.json
++++ b/global.json
+@@ -1,5 +1,5 @@
+ {
+   "sdk": {
+-    "version": "3.1.201"
++    "version": "3.1.426"
+   }
+-}
+\ No newline at end of file
++}
+-- 
+2.39.0
+

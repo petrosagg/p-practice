@@ -1,6 +1,5 @@
-{
-, stdenv
-, fetchFromGitHub,
+{ stdenv
+, fetchFromGitHub
 , lib
 , buildDotnetModule
 , dotnetCorePackages
@@ -16,7 +15,7 @@ buildDotnetModule rec {
     owner = "p-org";
     repo = "P";
     rev = "p-${version}";
-    hash = lib.fakeHash;
+    hash = "sha256-MFewY3LjNJlqjIN5ZDzmcYRKZLM5F3w2ZViG1+ksv40=";
   };
 
   projectFile = "P.sln";
