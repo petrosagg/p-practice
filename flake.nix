@@ -11,9 +11,10 @@
         };
         p = (pkgs.callPackage ./pkgs/p { });
         coyote = (pkgs.callPackage ./pkgs/coyote { });
+        pc = pkgs.writeShellScriptBin "pc" ''exec ${p}/bin/P "$@"'';
         pmc = pkgs.writeShellScriptBin "pmc" ''exec ${coyote}/bin/coyote test "$@"'';
       in pkgs.mkShell {
-        buildInputs = [ p pmc ];
+        buildInputs = [ pc pmc ];
       };
   };
 }
