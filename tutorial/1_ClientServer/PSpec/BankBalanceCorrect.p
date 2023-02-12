@@ -33,12 +33,13 @@ what was requested by the client.
 new account balance is correct and if the withdraw failed it is because the withdraw will make the account
 balance go below 10 dollars which is against the bank policies!
 ****************************************************/
-spec BankBalanceIsAlwaysCorrect observes eWithDrawReq,  eWithDrawResp, eSpec_BankBalanceIsAlwaysCorrect_Init {
+spec BankBalanceIsAlwaysCorrect observes eWithDrawReq,  eWithDrawResp, eDepositReq, eDepositResp, eSpec_BankBalanceIsAlwaysCorrect_Init {
   // keep track of the bank balance for each client: map from accountId to bank balance.
   var bankBalance: map[int, int];
   // keep track of the pending withdraw requests that have not been responded yet.
   // map from reqId -> withdraw request
   var pendingWithDraws: map[int, tWithDrawReq];
+  var pendingDeposits: map[int, tDepositReq];
 
   start state Init {
     on eSpec_BankBalanceIsAlwaysCorrect_Init goto WaitForWithDrawReqAndResp with (balance: map[int, int]){
@@ -52,6 +53,29 @@ spec BankBalanceIsAlwaysCorrect observes eWithDrawReq,  eWithDrawResp, eSpec_Ban
         format ("Unknown accountId {0} in the withdraw request. Valid accountIds = {1}",
           req.accountId, keys(bankBalance));
       pendingWithDraws[req.rId] = req;
+    }
+
+    on eDepositReq do (req: tDepositReq) {
+      assert req.accountId in bankBalance,
+        format ("Unknown accountId {0} in the deposit request. Valid accountIds = {1}",
+          req.accountId, keys(bankBalance));
+      pendingDeposits[req.rId] = req;
+    }
+
+    on eDepositResp do (resp: tDepositResp) {
+      assert resp.accountId in bankBalance,
+        format ("Unknown accountId {0} in the withdraw response!", resp.accountId);
+      assert resp.rId in pendingDeposits,
+        format ("Unknown rId {0} in the withdraw response!", resp.rId);
+      assert resp.balance >= 10,
+        "Bank balance in all accounts must always be greater than or equal to 10!!";
+
+      assert resp.balance == bankBalance[resp.accountId] + pendingDeposits[resp.rId].amount,
+        format ("Bank balance for the account {0} is {1} and not the expected value {2}, Bank is lying!",
+          resp.accountId, resp.balance, bankBalance[resp.accountId] - pendingDeposits[resp.rId].amount);
+      // update the new account balance
+      bankBalance[resp.accountId] = resp.balance;
+      print format ("new account balance = {0}", bankBalance[resp.accountId]);
     }
 
     on eWithDrawResp do (resp: tWithDrawResp) {
@@ -69,6 +93,7 @@ spec BankBalanceIsAlwaysCorrect observes eWithDrawReq,  eWithDrawResp, eSpec_Ban
             resp.accountId, resp.balance, bankBalance[resp.accountId] - pendingWithDraws[resp.rId].amount);
         // update the new account balance
         bankBalance[resp.accountId] = resp.balance;
+        print format ("new account balance = {0}", bankBalance[resp.accountId]);
       }
       else
       {

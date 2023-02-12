@@ -21,17 +21,23 @@ machine AbstractBankServer
 
     on eWithDrawReq do (wReq: tWithDrawReq) {
       assert wReq.accountId in balance, "Invalid accountId received in the withdraw request!";
-      if(balance[wReq.accountId] - wReq.amount > 10) /* hint: bug */
+      if(balance[wReq.accountId] - wReq.amount >= 10) /* hint: bug */
       {
         balance[wReq.accountId] = balance[wReq.accountId] - wReq.amount;
-        send wReq.source, eWithDrawResp, 
+        send wReq.source, eWithDrawResp,
           (status = WITHDRAW_SUCCESS, accountId = wReq.accountId, balance = balance[wReq.accountId], rId = wReq.rId);
       }
       else
       {
-        send wReq.source, eWithDrawResp, 
+        send wReq.source, eWithDrawResp,
           (status = WITHDRAW_ERROR, accountId = wReq.accountId, balance = balance[wReq.accountId], rId = wReq.rId);
       }
+    }
+
+    on eDepositReq do (dReq: tDepositReq) {
+      assert dReq.accountId in balance, "Invalid accountId received in the withdraw request!";
+      balance[dReq.accountId] = balance[dReq.accountId] + dReq.amount;
+      send dReq.source, eDepositResp, (accountId = dReq.accountId, balance = balance[dReq.accountId], rId = dReq.rId);
     }
   }
 }
