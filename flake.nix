@@ -14,7 +14,7 @@
         pc = pkgs.writeShellScriptBin "pc" ''exec ${p}/bin/P "$@"'';
         pmc = pkgs.writeShellScriptBin "pmc" ''exec ${coyote}/bin/coyote test "$@"'';
       in pkgs.mkShell {
-        buildInputs = [ pc pmc ];
+        buildInputs = [ pc pmc pkgs.dotnet-sdk ];
       };
   };
 }
